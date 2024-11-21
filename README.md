@@ -16,6 +16,12 @@ Data in this repository consists of Excel and CSV files:
 
 In order to easily visualize the distribution of commuting population, housing prices, and their relationship, it is crucial to plot the data for a clear overview. 
 
+The columns required to effectively plot the image are as follows:
+
+x: Longitude in the Cartesian coordinate system of each data point
+y: Latitude in the Cartesian coordinate system of each data point
+price: Housing price of each data point
+commute: Commuting population of each data point
 
 
 The following code performs the above step:
@@ -150,5 +156,5 @@ Figure 1 illustrates the visualization results, presenting a 3D plot where housi
 
 <p align="center">
   <img src = "Visualization.png" width = "70%"> <br>
-  Figure 1. Visualization of commuting population and apartment prices in Busan.
+  Figure 1. Visualization of commuting population and housing prices in Busan.
 </p>
