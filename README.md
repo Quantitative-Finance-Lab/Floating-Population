@@ -11,7 +11,7 @@ Data in this repository consists of Excel and CSV files:
 - *Hedonic data.csv*: Aggregated hedonic dataset of 53,458 observations with 26 variables
 
 
-## Plotting commuting population and price
+## Plotting commuting population and housing prices
 
 
 In order to easily visualize the distribution of commuting population, housing prices, and their relationship, it is crucial to plot the data for a clear overview. 
