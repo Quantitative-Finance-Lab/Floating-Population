@@ -5,5 +5,5 @@ This data was then merged with our existing hedonic dataset based on date and lo
 
 Data in this repository consists of Excel and CSV files:
 
-- *Property Price and Green Index.xlsx*: Aggregated hedonic dataset of 52,644 observations with 27 variables
-- *Calculated Greenness.csv*: Converted value data of GSV images in the *GSV IMAGE* folder
+- *Busan Commuting Population.xlsx*: Aggregated hedonic dataset of 52,644 observations with 27 variables
+- *Hedonic data.csv*: Aggregated hedonic dataset of 52,644 observations with 27 variables
