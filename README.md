@@ -24,69 +24,37 @@ The following code performs the above step. (Note: Our code is written based on 
 import pydeck
 pydeck.__version__
 mapbox_key =   # Write your mapbox key of pydeck library
+!pip install mapboxgl
 import mapboxgl
 print(f"Mapboxgl Version: {mapboxgl.__version__}")
 from google.colab import drive
 import pandas as pd
 drive.mount('/content/drive')
-directory = "/content/drive/MyDrive/"
-import csv
-import json
-
-with open(street_path, 'r') as f:
-    reader = csv.reader(f)
-    next(reader)
-
-    data = []
-    for line in reader:
-        d = {
-            'latitude': line[0],
-            'longitude': line[1],
-        }
-        data.append(d)
-
-json_string = json.dumps(data, ensure_ascii=False, indent=2)
-
-# print(json_string)
-
-txt_file_path = directory + 'data.txt'
-
-with open(txt_file_path, 'w', encoding='utf-8') as f:
-    f.write(json_string)
-busan_latlong = directory + 'data.txt'
-with open(busan_latlong, "r") as f:
-  geo_latlong = json.load(f)
+directory = # Write your directory
 busan_path = directory + 'Hedonic data.csv'
 busan = pd.read_csv(busan_path)
-import csv
-import json
 
-with open(busan_path, 'r') as f:
-    reader = csv.reader(f)
-    next(reader)
-
-    data = []
-    for line in reader:
-        d = {
-            'latitude': line[5],
-            'longitude': line[4],
-            'properties': {
-                'price': line[1],
-                'commute': line[25],
-                }
+data = []
+for _, row in busan.iterrows():
+    d = {
+        'latitude': row['y'],  
+        'longitude': row['x'],  
+        'properties': {
+            'price': row['price'],     
+            'commute': row['commute']  
         }
-        data.append(d)
+    }
+    data.append(d)
+
 
 json_string = json.dumps(data, ensure_ascii=False, indent=2)
-
-# print(json_string)
-
 txt_file_path = directory + 'busan_data.txt'
-
 with open(txt_file_path, 'w', encoding='utf-8') as f:
-    f.write(json_string)data_path = directory + 'busan_data.txt'
-with open(data_path, "r") as f:
-  geo = json.load(f)
+    f.write(json_string)
+
+
+with open(txt_file_path, "r") as f:
+    geo = json.load(f)
 !pip install pydeck
 !pip install geemap
 import pydeck as pdk
