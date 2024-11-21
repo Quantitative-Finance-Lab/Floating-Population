@@ -41,6 +41,6 @@ Figure 1 illustrates the visualization results, presenting a plot where housing 
 
 
 <p align="center">
-  <img src = "README_image/Visualization.png" width = "70%"> <br>
+  <img src = "Visualization.png" width = "70%"> <br>
   Figure 1. Visualization of commuting population and apartment prices in Busan.
 </p>
