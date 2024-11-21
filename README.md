@@ -145,7 +145,7 @@ print(f"Visualization saved to {result_html_path}")
 
 
 
-Figure 1 illustrates the visualization results, presenting a plot where housing prices are shown as height and commuting population is represented by color—darker blue shades indicate lower values, while brighter colors represent higher values.
+Figure 1 illustrates the visualization results, presenting a 3D plot where housing prices are depicted as vertical bars, and commuting population is represented by a gradient of colors. The height of each bar corresponds to the relative housing price level, with taller bars indicating higher prices. Meanwhile, the color gradient conveys commuting population density, transitioning from darker blue for lower densities to brighter shades for higher densities, allowing for a comprehensive view of both variables and their spatial relationship across districts.
 
 
 <p align="center">
