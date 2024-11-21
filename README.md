@@ -20,106 +20,66 @@ In order to easily visualize the distribution of commuting population, housing p
 
 The following code performs the above step. (Note: Our code is written based on Google Colab.):
 ```python
-!pip install pydeck
-import pydeck
-pydeck.__version__
-mapbox_key =   # Write your mapbox key of pydeck library
-!pip install mapboxgl
-import mapboxgl
-print(f"Mapboxgl Version: {mapboxgl.__version__}")
-from google.colab import drive
-import pandas as pd
-drive.mount('/content/drive')
-directory = # Write your directory
-busan_path = directory + 'Hedonic data.csv'
-busan = pd.read_csv(busan_path)
-
-data = []
-for _, row in busan.iterrows():
-    d = {
-        'latitude': row['y'],  
-        'longitude': row['x'],  
-        'properties': {
-            'price': row['price'],     
-            'commute': row['commute']  
-        }
-    }
-    data.append(d)
-
-
-json_string = json.dumps(data, ensure_ascii=False, indent=2)
-txt_file_path = directory + 'busan_data.txt'
-with open(txt_file_path, 'w', encoding='utf-8') as f:
-    f.write(json_string)
-
-
-with open(txt_file_path, "r") as f:import pandas as pd
-import json
 import pydeck as pdk
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import time
+import pandas as pd
+import json
+from IPython.display import HTML
+import colorsys
 
-# Set your Mapbox key
-mapbox_key = "your_mapbox_key"  # Replace with your Mapbox API key
+# Define your Mapbox API key
+mapbox_key = "your_mapbox_key_here"  # Replace with your Mapbox key
+pdk.settings.mapbox_key = mapbox_key
 
-# Define file paths
-directory = "your_directory_path/"  # Replace with your directory path
-busan_path = directory + 'Hedonic data.csv'
-txt_file_path = directory + 'busan_data.txt'
-screenshot_path = directory + 'visualization.png'
-html_output_path = directory + 'result.html'
+# Path to your data file
+directory = "your_directory_here/"  # Replace with your directory
+busan_path = directory + "Hedonic data.csv"
 
-# Load dataset
+# Load data
 busan = pd.read_csv(busan_path)
 
-# Process data into GeoJSON-like format
+# Transform data into a GeoJSON-like structure
 data = []
 for _, row in busan.iterrows():
     d = {
-        'latitude': row['y'],
-        'longitude': row['x'],
-        'properties': {
-            'price': row['price'],
-            'commute': row['commute']
+        "latitude": row["y"],  
+        "longitude": row["x"],  
+        "properties": {
+            "price": row["price"],     
+            "commute": row["commute"]
         }
     }
     data.append(d)
 
-# Save data as JSON file
+# Save data as a JSON string
 json_string = json.dumps(data, ensure_ascii=False, indent=2)
-with open(txt_file_path, 'w', encoding='utf-8') as f:
+txt_file_path = directory + "busan_data.txt"
+with open(txt_file_path, "w", encoding="utf-8") as f:
     f.write(json_string)
 
-# Load JSON data
+# Load the JSON data
 with open(txt_file_path, "r") as f:
     geo = json.load(f)
 
-# Preprocess data for pydeck visualization
-max_index_value = max(float(item["properties"]["price"]) for item in geo)
-min_index_value = min(float(item["properties"]["price"]) for item in geo)
-max_index_value1 = max(float(item["properties"]["commute"]) for item in geo)
-min_index_value1 = min(float(item["properties"]["commute"]) for item in geo)
-
-pdk.settings.mapbox_key = mapbox_key
-
-# Normalize a value between min and max
+# Functions to calculate color and elevation
 def minmax(value, min_value, max_value):
     return (value - min_value) / (max_value - min_value)
 
-# Calculate color based on 'commute' values
 def calculate_color(item):
     index_value = float(item["properties"]["commute"])
     minmax_value = minmax(index_value, min_index_value1, max_index_value1)
     return [0, 255 * minmax_value, 255 * (1 - minmax_value), 255]
 
-# Calculate elevation based on 'price' values
 def calculate_elevation(item):
     index_value2 = float(item["properties"]["price"])
     minmax_value = minmax(index_value2, min_index_value, max_index_value)
     return minmax_value * 6000
 
 # Transform GeoJSON data
+max_index_value = max(float(item["properties"]["price"]) for item in geo)
+min_index_value = min(float(item["properties"]["price"]) for item in geo)
+max_index_value1 = max(float(item["properties"]["commute"]) for item in geo)
+min_index_value1 = min(float(item["properties"]["commute"]) for item in geo)
+
 geo_transformed_2 = [
     {
         "longitude": float(item["longitude"]),
@@ -130,62 +90,53 @@ geo_transformed_2 = [
     for item in geo
 ]
 
-# Add elevation and color to busan dataframe
-elevation_values = [int(item['elevation']) for item in geo_transformed_2]
-color_values = [item['color'] for item in geo_transformed_2]
+# Prepare elevation and color data
+elevation_values = [int(item["elevation"]) for item in geo_transformed_2]
+max_elevation = max(elevation_values)
+color_values = [item["color"] for item in geo_transformed_2]
 
-busan_mini = busan[['x', 'y']].copy()
-busan_mini['elevation'] = elevation_values
-busan_mini['color'] = color_values
+# Add elevation and color to the DataFrame
+busan_mini = busan[["x", "y"]].copy()
+busan_mini["elevation"] = elevation_values
+busan_mini["color"] = color_values
 
-# Set map view settings
+# Define map center
 lon, lat = 129.0708802, 35.1153616
-view_state = pdk.ViewState(longitude=lon, latitude=lat, zoom=12.5, pitch=70, bearing=-27.36)
 
-# Define pydeck layers
+# Define layers
 layer11 = pdk.Layer(
-    'ScatterplotLayer',
-    data=[],
-    get_position='[longitude, latitude]',
-    get_color='[255, 255, 255, 255]',
+    "ScatterplotLayer",
+    busan_mini,
+    get_position="[x, y]",
+    get_color="[255, 255, 255, 255]",
     get_radius=100
 )
 
 layer22 = pdk.Layer(
-    'ColumnLayer',
+    "ColumnLayer",
     busan_mini,
     extruded=True,
-    get_position='[x, y]',
-    get_fill_color='color',
-    get_elevation='elevation',
+    get_position="[x, y]",
+    get_fill_color="color",
+    get_elevation="elevation",
     elevation_scale=1,
-    elevation_range=[0, max(elevation_values)],
+    elevation_range=[0, max_elevation],
     pickable=False,
     auto_highlight=False,
     radius=100,
     opacity=0.01
 )
 
-# Render pydeck visualization
+# Set view state
+view_state = pdk.ViewState(longitude=lon, latitude=lat, zoom=12.5, pitch=70, bearing=-27.36)
+
+# Create and save PyDeck visualization
 r = pdk.Deck(layers=[layer11, layer22], initial_view_state=view_state)
-data_result = r.to_html(html_output_path, as_string=True)
+result_html_path = directory + "result.html"
+data_result = r.to_html(result_html_path, as_string=True)
 
-# Set up Selenium for screenshot
-chrome_options = Options()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--disable-dev-shm-usage')
-
-driver = webdriver.Chrome(options=chrome_options)
-driver.set_window_size(2560, 1440)
-
-# Load the HTML file and capture screenshot
-driver.get('file://' + html_output_path)
-time.sleep(10)  # Wait for visualization to render
-driver.save_screenshot(screenshot_path)
-driver.quit()
-
-print(f"Screenshot saved to {screenshot_path}")
+# Print completion message
+print(f"Visualization saved to {result_html_path}")
 ```
 
 
