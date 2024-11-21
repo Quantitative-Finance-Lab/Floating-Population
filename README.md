@@ -18,10 +18,10 @@ In order to easily visualize the distribution of commuting population, housing p
 
 The columns required to effectively plot the image are as follows:
 
-- *x: Longitude in the Cartesian coordinate system of each data point 
-- *y: Latitude in the Cartesian coordinate system of each data point
-- *price: Housing price of each data point
-- *commute: Commuting population of each data point
+- x: Longitude in the Cartesian coordinate system of each data point 
+- y: Latitude in the Cartesian coordinate system of each data point
+- price: Housing price of each data point
+- commute: Commuting population of each data point
 
 
 The following code performs the above step:
