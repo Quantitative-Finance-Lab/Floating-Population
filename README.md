@@ -18,7 +18,7 @@ In order to easily visualize the distribution of commuting population, housing p
 
 
 
-The following code performs the above step. (Note: Our code is written based on Google Colab.):
+The following code performs the above step:
 ```python
 import pydeck as pdk
 import pandas as pd
