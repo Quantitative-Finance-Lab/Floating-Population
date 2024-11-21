@@ -3,7 +3,7 @@
 To investigate the impact of commuting population flows on housing prices in Busan, we collected commuting population data by district in Busan. 
 This data was then merged with our existing hedonic dataset based on date and location to create an aggregated hedonic dataset.
 
-(Aggregation process image? 이거 합치는 과정은 몰라..) 
+(Aggregation process image? 이거 합치는 과정은 저도 모르기는 하는데, 아무튼 코드를 추가하던가, 설명을 추가해야할듯..) 
 
 Data in this repository consists of Excel and CSV files:
 
