@@ -7,7 +7,7 @@ This data was then merged with our existing hedonic dataset based on date and lo
 Data in this repository consists of Excel and CSV files:
 
 - *Busan Commuting Population.xlsx*: Raw data of commuting population by district in Busan.
-- *Hedonic data.csv*: Aggregated hedonic dataset of 53,458 observations with 26 variables
+- *Hedonic data.csv*: Aggregated hedonic dataset of 53,458 observations with 26 variables including commuting population.
 
 
 ## Plotting commuting population and housing prices
