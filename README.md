@@ -155,6 +155,6 @@ Figure 1 illustrates the visualization results, presenting a 3D plot where housi
 
 
 <p align="center">
-  <img src = "Visualization.png" width = "70%"> <br>
+  <img src = "README_image/Visualization.png" width = "70%"> <br>
   Figure 1. Visualization of commuting population and housing prices in Busan.
 </p>
